@@ -64,7 +64,6 @@ import { reactive } from 'vue';
             <Button @click="taskRemove(task.id)" icon="pi pi-times" severity="danger" text raised rounded aria-label="Cancel" class="ms-4"/>
       </div>
     </div>
-
   </main>
 </template>
 
