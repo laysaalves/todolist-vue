@@ -1,8 +1,9 @@
 <script setup>
 import TaskInput from './components/input/TaskInput.vue';
 import AddTask from './components/button/AddTask.vue';
-
 import Checkbox from 'primevue/checkbox';
+import Button from 'primevue/button';
+import 'primeicons/primeicons.css'
 
 import { reactive } from 'vue';
 
@@ -10,56 +11,59 @@ import { reactive } from 'vue';
     newTask: '',
     tasks: [
       {
-        title: 'escrever um codigo',
-        checked: true,
+        id: 1,
+        title: 'escrever um código',
+        checked: false,
       },
-
       {
-        title: 'apagar um codigo',
+        id: 2,
+        title: 'apagar um código',
         checked: false,
       },
     ]
   })
 
-  const taskFilter = () => {
-    const {filter} = status
-    if(filter === "checkeds"){
-      return status.tasks.filter(task => task.checked)
-    }else{
-      return status.tasks
-    }
-  }
-
   const taskRegister = () => {
     status.tasks.push({
       title: status.newTask,
-      checked: false
+      checked: false,
+      id: status.tasks.length + 1,
     })
 
     status.newTask = ''
   }
 
+  const taskRemove = (taskId) => {
+    const taskToRemove = status.tasks.find((task) => task.id === taskId);
+      if (taskToRemove) {
+        status.tasks = status.tasks.filter((task) => task.id !== taskId);
+      }
+  };
+
+  const taskFilter = () => {
+    return status.tasks
+  }
 </script>
 
 <template>
   <main class="min-h-screen flex items-center justify-center flex-col p-20">
-      <h1 class="text-2xl mb-6 font-bold">TO DO APP with VueJS</h1>
-
+    <img src="./assets/images/todolist-icon.png" alt="TO DO LIST Icon" class="size-40">
+      <h1 class="text-lg mb-6 font-bold">TO DO APP with VueJS</h1>
     <form @submit.prevent="taskRegister">
       <div class="flex justify-center gap-4">
           <TaskInput required type="text" v-model="status.newTask"/>
           <AddTask type="submit" title="create"/>
       </div>
     </form>
-    
-    <ul class="list-group pt-8">
-      <li class="list-group-item" v-for="task in taskFilter()">
-        <Checkbox v-model="task.checked" binary :id="task.title" :checked="task.checked" class="mt-2"/>
-        <label :for="task.title" :class="{done:task.checked}" class="ml-2">
-          {{task.title}}
-        </label>
-      </li>
-    </ul>
+    <div class="flex flex-col pt-6">
+      <div v-for="task in taskFilter()" class="flex items-center mt-2">
+        <Checkbox v-model="task.checked" binary :id="task.id" :checked="task.checked"/>
+          <label :class="{done:task.checked}" class="ms-2">
+            {{task.title}}
+          </label>
+            <Button @click="taskRemove(task.id)" icon="pi pi-times" severity="danger" text raised rounded aria-label="Cancel" class="ms-4"/>
+      </div>
+    </div>
 
   </main>
 </template>
