@@ -12,15 +12,16 @@ import { reactive } from 'vue';
     tasks: [
       {
         id: 1,
-        title: 'escrever um código',
+        title: 'Task unfinished example',
         checked: false,
       },
       {
         id: 2,
-        title: 'apagar um código',
-        checked: false,
+        title: 'Task checked example',
+        checked: true,
       },
-    ]
+    ],
+    unfinishedTaskCount: 0
   })
 
   const taskRegister = () => {
@@ -29,18 +30,20 @@ import { reactive } from 'vue';
       checked: false,
       id: status.tasks.length + 1,
     })
-
     status.newTask = ''
+    status.unfinishedTaskCount = status.tasks.filter(task => !task.checked).length
   }
 
   const taskRemove = (taskId) => {
     const taskToRemove = status.tasks.find((task) => task.id === taskId);
       if (taskToRemove) {
         status.tasks = status.tasks.filter((task) => task.id !== taskId);
+        status.unfinishedTaskCount = status.tasks.filter(task => !task.checked).length
       }
   };
 
   const taskFilter = () => {
+    status.unfinishedTaskCount = status.tasks.filter(task => !task.checked).length
     return status.tasks
   }
 </script>
@@ -55,7 +58,10 @@ import { reactive } from 'vue';
           <AddTask type="submit" title="create"/>
       </div>
     </form>
-    <div class="flex flex-col pt-6">
+    <div class="mt-4">
+      <Button type="button" label="Unfinished tasks" :badge="status.unfinishedTaskCount" contrast outlined />
+    </div>
+    <div class="flex flex-col pt-4">
       <div v-for="task in taskFilter()" class="flex items-center mt-2">
         <Checkbox v-model="task.checked" binary :id="task.id" :checked="task.checked"/>
           <label :class="{done:task.checked}" class="ms-2">
