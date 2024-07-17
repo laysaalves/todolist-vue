@@ -63,7 +63,7 @@ const taskRemove = (taskId) => {
         <label :class="{ done: task.checked }" class="ms-2">
           {{ task.title }}
         </label>
-        <Button @click="taskRemove(task.id)" icon="pi pi-times" severity="danger" text raised rounded aria-label="Cancel" class="ms-4" />
+        <Button @click="taskRemove(task.id)" icon="pi pi-times" severity="danger" text raised rounded aria-label="Cancel" class="ms-4"/>
       </div>
     </div>
   </main>

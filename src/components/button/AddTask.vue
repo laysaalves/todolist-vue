@@ -8,5 +8,5 @@ defineProps<{
 </script>
 
 <template>
-    <Button severity="success" class="uppercase font-bold">{{ title }}</Button>
+    <Button class="bg-green-500 uppercase font-bold">{{ title }}</Button>
 </template>
