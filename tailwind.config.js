@@ -1,4 +1,4 @@
-import { colors } from "./src/assets/css/colors"
+import { colors } from "./src/styles/colors"
 
 /** @type {import('tailwindcss').Config} */
 export default {
